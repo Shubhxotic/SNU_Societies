@@ -124,47 +124,68 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </div>
 <!-- //banner -->
 <!-- education -->
-<div class="employment">
+<div class="employment" >
 	<div class="container">
+		<!--<h1>req:- {{post.cl_id}} asd</h1>-->
+		{% if post.cl_id == 0 %}
 		<h3 class="tittle ">Events Registered</h3>
-		<p class="abt-para ">Sed ut perspiciatis unde omnis iste natus error sit
-		voluptatem accusantium doloremque laudantium, totam
-		rem aperiam, eaque ipsa quae ab illo inventore veritatis
-		et quasi architecto beatae vitae dicta sunt explicabo.
-		Nemo enim ipsam voluptatem quia voluptas sit aspernatur . </p>
-		<div class="col-md-6 employ-left">
-			<h4>01</h4>
-		</div>
-		<div class="col-md-6 employ-right">
-			<h5><span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>Web Designer</h5>
-			<p>voluptatem accusantium doloremque laudantium, totam
-		rem aperiam, eaque ipsa quae ab illo inventore veritatis </p>
-		</div>
-		<div class="col-md-6 employ-left2">
-			<h5>UI/UX Designer<span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span></h5>
-			<p>voluptatem accusantium doloremque laudantium, totam
-		rem aperiam, eaque ipsa quae ab illo inventore veritatis </p>
-		</div>
-		<div class="col-md-6 employ-right2">
-			<h4>02</h4>
-		</div>
-		<div class="col-md-6 employ-left ">
-			<h4>03</h4>
-		</div>
-		<div class="col-md-6 employ-right">
-			<h5><span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>HTML Developer</h5>
-			<p>voluptatem accusantium doloremque laudantium, totam
-		rem aperiam, eaque ipsa quae ab illo inventore veritatis </p>
-		</div>
-		<div class="col-md-6 employ-left2">
-			<h5>Photoshop<span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span></h5>
-			<p>voluptatem accusantium doloremque laudantium, totam
-		rem aperiam, eaque ipsa quae ab illo inventore veritatis </p>
-		</div>
-		<div class="col-md-6 employ-right2">
-			<h4>04</h4>
-		</div>
-		<div class="clearfix"></div>
+		<!--<p class="abt-para ">Sed ut perspiciatis unde omnis iste natus error sit-->
+		<!--voluptatem accusantium doloremque laudantium, totam-->
+		<!--rem aperiam, eaque ipsa quae ab illo inventore veritatis-->
+		<!--et quasi architecto beatae vitae dicta sunt explicabo.-->
+		<!--Nemo enim ipsam voluptatem quia voluptas sit aspernatur . </p>-->
+		<!--<div class="col-md-6 employ-left">-->
+			<!--<h4>01</h4>-->
+		<!--</div>-->
+		<!--<div class="col-md-6 employ-right">-->
+			<!--<h5><span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>Web Designer</h5>-->
+			<!--<p>voluptatem accusantium doloremque laudantium, totam-->
+		<!--rem aperiam, eaque ipsa quae ab illo inventore veritatis </p>-->
+		<!--</div>-->
+		<!--<div class="col-md-6 employ-left2">-->
+			<!--<h5>UI/UX Designer<span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span></h5>-->
+			<!--<p>voluptatem accusantium doloremque laudantium, totam-->
+		<!--rem aperiam, eaque ipsa quae ab illo inventore veritatis </p>-->
+		<!--</div>-->
+		<!--<div class="col-md-6 employ-right2">-->
+			<!--<h4>02</h4>-->
+		<!--</div>-->
+		<!--<div class="col-md-6 employ-left ">-->
+			<!--<h4>03</h4>-->
+		<!--</div>-->
+		<!--<div class="col-md-6 employ-right">-->
+			<!--<h5><span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>HTML Developer</h5>-->
+			<!--<p>voluptatem accusantium doloremque laudantium, totam-->
+		<!--rem aperiam, eaque ipsa quae ab illo inventore veritatis </p>-->
+		<!--</div>-->
+		<!--<div class="col-md-6 employ-left2">-->
+			<!--<h5>Photoshop<span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span></h5>-->
+			<!--<p>voluptatem accusantium doloremque laudantium, totam-->
+		<!--rem aperiam, eaque ipsa quae ab illo inventore veritatis </p>-->
+		<!--</div>-->
+		<!--<div class="col-md-6 employ-right2">-->
+			<!--<h4>04</h4>-->
+		<!--</div>-->
+		<!--<div class="clearfix"></div>-->
+		{% else %}
+			<h3 class="tittle ">Events Conducted</h3>
+		{% endif %}
+		<br>
+			<div class="row">
+			{% for event in eve %}
+				<div class="col-md-3">
+				<img src="{{event.poster}}" width="300px" height="300px">
+				<p class="text-center">{{event.Name}}</p>
+					{% if post.cl_id != 0  %}
+						<a href="/customemail/{{event.Name}}/" class="text-center"><button class="btn btn-primary">Send reminders</button></a>
+					{% else %}
+						<div class="text-center"><a href="/deregister/{{event.id}}"><button class="btn btn-primary">Deregister</button></a></div>
+					{% endif %}
+				</div>
+				<div class="col-md-1">
+				</div>
+			{% endfor %}
+			</div>
 	</div>
 </div>
 <!-- education -->

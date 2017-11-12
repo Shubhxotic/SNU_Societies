@@ -1,4 +1,4 @@
-{{% load staticfiles %}
+{% load staticfiles %}
 <html lang="en">
 <head>
 <title>Add Event Page</title>
@@ -38,7 +38,7 @@
 
 									<div class="form-control">
 										<label class="header">Club Name <span>*</span></label>
-										<input type="text" id="name" name="clubname" placeholder="Name" title="Please enter Event Name" required="">
+										<input type="text" id="name" name="clubname" placeholder="Name" title="Please enter Event Name" required="" contenteditable="false" value="{{request.user.username | title}}" readonly>
 									</div>
 
 
@@ -57,7 +57,7 @@
 
 									<div class="form-control">
 										<label class="header">Add Image </label><!-- <input type="file" name="myfile"> -->
-										<input type="text" id="image" title="Image"placeholder="Add Image for your Event">
+										<!--<input type="text" id="image" title="Image"placeholder="Add Image for your Event">-->
 										<br>
 										<input type="file" name="myfile">
 										<br>
@@ -81,23 +81,29 @@
 									<div class="grid-w3layouts1">
 									<div class="w3-agile1">
 										<label class="rating">Choose Interests<span>*</span></label>
-										<ul>
-											<li>
-												<input type="radio" id="a-option" name="selector1">
-												<label for="a-option">Music</label>
-												<div class="check"></div>
-											</li>
-											<li>
-												<input type="radio" id="b-option" name="selector1">
-												<label for="b-option">Dance</label>
-												<div class="check"><div class="inside"></div></div>
-											</li>
-
+										<!--<ul>-->
+											<!--<li>-->
+												<!--<input type="radio" id="a-option" name="selector1">-->
+												<!--<label for="a-option">Music</label>-->
+												<!--<div class="check"></div>-->
+											<!--</li>-->
+											<!--<li>-->
+												<!--<input type="radio" id="b-option" name="selector1">-->
+												<!--<label for="b-option">Dance</label>-->
+												<!--<div class="check"><div class="inside"></div></div>-->
+											<!--</li>-->
+										<div class="row">
+											{% for i in tags %}
+												<input type="checkbox" name="recommendations" value="{{i.Tag_Name}}">
+												<label style="color: #aaa;" class="col-md-6">{{i.Tag_Name | upper}}</label><br>
+											{% endfor %}
+										</div>
 										</ul>
 									</div>
 								<div class="form-control w3-visit">
-									<label class="header">Event Description <span>*</span></label>
-										<textarea  name="desc" placeholder="" title="Please enter relevant decription of Event" required=""></textarea>
+															<label class="header">Emiment Guests</label>
+												<textarea  name="Guest" placeholder="Enter name of speakers etc." title=""></textarea>
+
 									</div>
 								</div>
 
@@ -106,8 +112,8 @@
 
 					</div>
 					<div class="form-control speaker">
-										<label class="header">Emiment Guests</label>
-												<textarea  name="Guest" placeholder="Enter name of speakers etc." title=""></textarea>
+						<label class="header">Event Description <span>*</span></label>
+										<textarea  name="desc" placeholder="" title="Please enter relevant decription of Event" required=""></textarea>
 									</div>
 									  <!--<button type="submit">Create Event</button>-->
 									  <input type="submit" value="Create Event">

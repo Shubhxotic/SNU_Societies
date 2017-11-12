@@ -5,9 +5,11 @@ from django.conf import settings
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from django import forms
+from matplotlib.sphinxext.only_directives import html_only
+
 from .forms import UserRegistrationForm, LoginForm, clubForm, ForgotPassForm, ChangePassForm, EmailCustomizeForm
 import json,os
-from .models import Reg_User,Clubs,eve_detail
+from .models import Reg_User,Clubs,eve_detail,tag
 from django.core.files.storage import FileSystemStorage
 from django.template import loader
 from passlib.hash import pbkdf2_sha256
@@ -15,6 +17,12 @@ from passlib.hash import pbkdf2_sha256
 from PIL import Image
 import os
 import io
+
+
+def titleCase(s):
+    s=str.lower(s)
+    s=str.upper(s[0])+s[1:]
+    return s
 
 def compress(original_file, max_size, scale):
     # path=os.path.join(os.getcwd(),original_file)
@@ -87,7 +95,7 @@ def ForgotPass(request):
             print(subject,message,from_email)
             print(to_list)
             # try:
-            send_mail(subject,message,from_email,to_list,fail_silently=False)
+            send_mail(subject,message,from_email,to_list,html_message=html_message,fail_silently=False)
             # except Exception e:
 
                 # print("Bad params")
@@ -185,7 +193,7 @@ def register(request):
                         print(message)
                         print(from_email)
                         print(to_list)
-                        send_mail(subject, message, from_email, to_list, fail_silently=False, html_message=html_message)
+                        # send_mail(subject, message, from_email, to_list, fail_silently=False, html_message=html_message)
                         print("mail sent")
                     except:
                         print("Mail not sent")
@@ -240,7 +248,7 @@ def Login(request):
         print(form)
         return render(request, 'homepage/LoginPage.html', {'form' : form, 'form1':form1 })
 
-def tag(request):
+def tags(request):
     return render(
         request, 'homepage/tag.html', {}
         )
@@ -346,7 +354,7 @@ def simple_upload(request):
         d= request.POST['Date']
         e= request.POST['Time']
         f= request.POST['email']
-        g= request.POST['selector1']
+        g= request.POST.getlist('recommendations')
         h= request.POST['desc']
         i= request.POST['Guest']
         print(a,b,c,d,e,f,g,h,i)
@@ -368,9 +376,10 @@ def simple_upload(request):
         #x.save()
 
         return render(request, 'homepage/club_admin2.html', {
-            'uploaded_file_url': uploaded_file_url
+            'uploaded_file_url': uploaded_file_url,
         })
-    return render(request, 'homepage/club_admin2.html')
+    tags1 = tag.objects.all()
+    return render(request, 'homepage/club_admin2.html', {'tags':tags1,})
 
 # def simple_upload(request):
 #     if not request.user.is_authenticated():
@@ -401,14 +410,39 @@ def user_profile(request):
     post = get_object_or_404(Reg_User, Username=user)
     l = post.interests.split(',')
     print(l)
+    eve = []
+    if(post.cl_id!=0):
+        events = get_object_or_404(Clubs, pk=post.cl_id).Events.split(',')
+        print(events)
+        for i in events:
+            eve.append(get_object_or_404(eve_detail, pk=int(i)))
+    else:
+        events = post.Registered_Events.split(',')
+        print(events)
+        for i in events:
+            eve.append(get_object_or_404(eve_detail, pk=int(i)))
+
     return render(
-        request, 'homepage/profile.html', {'post': post}
+        request, 'homepage/profile.html', {'post': post, 'eve':eve}
     )
     # post = get_object_or_404(Reg_User, pk=pk)
     # return render(
     #   request, 'homepage/profile.html', {'post': post}
     #   )
-
+# def addTags(request):
+#     tags=['TECHNOLOGY', 'Sports', 'Computer Science', 'TRAVEL', 'FOOD', 'FASHION', 'BEAUTY', 'GAMES', 'MANAGEMENT', 'FINANCE', 'BUSINESS', 'EDUCATION', 'CELEBRITY', 'HISTORY', 'DESIGN', 'WEATHER', 'PHOTOGRAPHY']
+#     for i in range(len(tags)):
+#         t=tags[i]
+#         user=Reg_User.objects.filter(interests__icontains= t)
+#         print(user)
+#         users = []
+#         for j in user:
+#             users.append(j.id)
+#         # print(type(users[0]))
+#         print(users)
+#         users=[str(i) for i in users]
+#         tag.objects.create(id=i, Tag_Name=titleCase(tags[i]), UserSubscribed=",".join(users))
+#
 
 def edit_tag(request):
     if not request.user.is_authenticated():
@@ -464,27 +498,22 @@ def customemail(request,eventname):
                 r=eve_detail.objects.filter(Name__iexact=eventname)[0].UserRegistered
                 print(r)
                 # print(r[1:-1].split(','))
-                q=[int(i) for i in r[1:-1].split(',') if i!=""]
+                if(r[0]=="'"):
+                    r=r[1:-1]
+                q=[int(i) for i  in r.split(',') if i!=""]
                 emails=[]
                 for i in q:
                     emails.append(Reg_User.objects.filter(pk=i)[0].Email)
-                # html_message = loader.render_to_string(
-                #     '/media/shubham/New Volume1/event_management/event_management/homepage/templates/homepage/customemail.html',
-                #     {
-                #         'body': message
-                #     }
-                # )
+                html_message = loader.render_to_string(
+                    os.getcwd()+'/homepage/templates/homepage/customemail.html',
+                    {
+                        'body': message,
+                    }
+                )
                 print(emails)
-                send_mail("djapsd","das",from_email, ["sa126@snu.edu.in"])
-                send_mail(subject, message, from_email, emails, html_message="""<h1>Customize your email </h1>
-                <h1>{{eventName}}</h1>
-                <form action="/customemail/{{eventName}}/" method="post">
-                   {% csrf_token %}
-                    {% for field in form %}
-                        {{field.label}}{{ field }}<br>
-                    {% endfor %}
-                    <input type="submit" value="Send Mail">
-                </form>""", fail_silently=False)
+                # send_mail(subject,message,from_email, ["sa126@snu.edu.in"])
+
+                send_mail(subject, message, from_email, emails, html_message=html_message , fail_silently=False)
             return HttpResponseRedirect("/")
         else:
             form=EmailCustomizeForm()
