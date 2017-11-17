@@ -41,21 +41,110 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--[if lt IE 9]>
   <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 <![endif]-->
+   <style type="text/css">  
+        body {  
+            margin: 0;  
+            background: #e6e6e6;  
+        }  
+        .showSlide {  
+            display: none  
+        }  
+            .showSlide img {  
+                width: 100%;  
+            }  
+        .slidercontainer {  
+            max-width: 1000px;  
+            position: relative;  
+            margin: auto;  
+        }  
+        .left, .right {  
+            cursor: pointer;  
+            position: absolute;  
+            top: 50%;  
+            width: auto;  
+            padding: 16px;  
+            margin-top: -22px;  
+            color: white;  
+            font-weight: bold;  
+            font-size: 18px;  
+            transition: 0.6s ease;  
+            border-radius: 0 3px 3px 0;  
+        }  
+        .right {  
+            right: 0;  
+            border-radius: 3px 0 0 3px;  
+        }  
+            .left:hover, .right:hover {  
+                background-color: rgba(115, 115, 115, 0.8);  
+            }  
+        .content {  
+            color: #eff5d4;  
+            font-size: 30px;  
+            padding: 8px 12px;  
+            position: absolute;  
+            top: 10px;  
+            width: 100%;  
+            text-align: center;  
+        }  
+        .active {  
+            background-color: #717171;  
+        }  
+        /* Fading animation */  
+        .fade {  
+            -webkit-animation-name: fade;  
+            -webkit-animation-duration: 1.5s;  
+            animation-name: fade;  
+            animation-duration: 1.5s;  
+        }  
+
+
+        .banner-1{
+		    background: url("../../static/images/{{x.image}}") no-repeat 0px 0px;
+		    background-size: cover;
+		    min-height:330px
+		} 
+		.banner{
+		    background: url("../../static/images/{{x.image}}") no-repeat 0px 0px;
+		    background-size: cover;
+		}
+
+        @-webkit-keyframes fade {  
+            from {  
+                opacity: .4  
+            }  
+            to {  
+                opacity: 1  
+            }  
+        }  
+  
+        @keyframes fade {  
+            from {  
+                opacity: .4  
+            }  
+            to {  
+                opacity: 1  
+            }  
+url(   \  \ } 
+
+ \  </style>) 
 </head>
-<body>
+<body style="background-color: #fff;">
 	<!-- banner -->
-	<div class="banner jarallax" style="background: url('../../static/images/m1.jpg');">
+	<div style="background-color: #333; width:100%;">
+	<div class="" style="background: url('../../static/images/{{x.image}}');
+    background-repeat: no-repeat; background-contain;  background-size: 100% 100%; height: 80%; width: 80%; margin: auto; padding:0px; border: 4px solid black;" >
+
 			<div class="w3layouts-header-top">
 				<div class="container">
 					<div class="w3-header-top-grids">
 						<div class="w3-header-top-left">
-							<p><i class="fa fa-volume-control-phone" aria-hidden="true"></i> +91 9891599121</p>
+
 						</div>
 						<div class="w3-header-top-right">
 							<div class="agileinfo-social-grids">
 								<ul>
-									<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-									<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+									<li><a href="https://www.facebook.com/snuphoria/?ref=br_rs" target="_blank"><i class="fa fa-facebook"></i></a></li>
+
 	<!--								<li><a href="#"><i class="fa fa-rss"></i></a></li>
 									<li><a href="#"><i class="fa fa-vk"></i></a></li>
 	-->
@@ -67,42 +156,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					</div>
 				</div>
 			</div>
-			<div class="head">
-				<div class="container">
-					<div class="navbar-top">
-							<!-- Brand and toggle get grouped for better mobile display -->
-							<div class="navbar-header">
-							  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-								<span class="sr-only">Toggle navigation</span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-							  </button>
-								 <div class="navbar-brand logo ">
-									<h1><a href="index.html">Event <span>Manager</span></a></h1>
-								</div>
 
-							</div>
-
-							<!-- Collect the nav links, forms, and other content for toggling -->
-							<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-							 <ul class="nav navbar-nav link-effect-4">
-							<li class="active"><a href="index.html">Home</a> </li>
-								<li><a href="about.html">About </a> </li>
-								<li><a href="gallery.html">Gallery</a></li>
-								<li class="dropdown">
-									<a href="codes.html" class="dropdown-toggle" data-hover="Pages" data-toggle="dropdown">Pages <b class="caret"></b></a>
-									<ul class="dropdown-menu">
-										<li><a href="icons.html">Icons</a></li>
-										<li><a href="codes.html">Codes</a></li>
-									</ul>
-								</li>
-								<li><a href="contact.html">Contact</a></li>
-							  </ul>
-							</div><!-- /.navbar-collapse -->
-					</div>
-				</div>
-			</div>
 			<div class="w3layouts-banner-slider">
 				<div class="container">
 					<div class="slider">
@@ -110,16 +164,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<ul class="rslides callbacks callbacks1" id="slider4">
 								<li>
 									<div class="agileits-banner-info">
-										<h3>{{x.clubname}}</h3>
-										<p>Etiam ut <maxi></maxi>mus mauris, eu pretium neque. Donec nibh lectus, blandit id metus non, bibendum dictum quam.</p>
-										<div class="w3-button">
-											<div class="w3ls-button">
-												<a href="#" data-toggle="modal" data-target="#myModal">About Us</a>
-											</div>
-										</div>
+										<!--<h3>{{x.clubname}}</h3>-->
+
+
 									</div>
 								</li>
-				
+
 							</ul>
 						</div>
 						<div class="clearfix"> </div>
@@ -148,73 +198,105 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				</div>
 			</div>
 	</div>
+		</div>
 	<!-- //banner -->
 	<!-- welcome -->
-	<div class="welcome">
+	<div class="welcome" style="padding: 20px;">
 		<div class="container">
 			<div class="w3-heading-grid">
-				<h2>Welcome</h2>
+				<h2>{{x.clubname}}</h2>
 				<div class="agileits-border"> </div>
-				<p>Introductory Lines</p>
+				<p>{{ x.oneliner }}</p>
 			</div>
 			<div class="w3l-welcome-grids">
 				<div class="col-md-5 w3ls-welcome-left">
-					<img src="{{x.image}}" alt="" />
+					<!--<img src="{{x.image}}" alt="" />-->
 				</div>
 				<div class="col-md-7 w3ls-welcome-right">
-					<h4>Morbi vestibulum odio eget turpis aliquet dictum</h4>
-					<p>Sed tempus efficitur ex et elementum. Nulla at diam blandit, posuere dui vel, tempor arcu. Nulla varius dictum lorem, et laoreet ipsum. Nunc eget sem rutrum, dictum dolor id, rhoncus justo.
-						<span>Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi tempus urna at tincidunt sodales. Sed pellentesque lacinia dui in venenatis.</span>
+					<h4>ABOUT CLUB</h4>
+					<p>{{ x.Description}}
 					</p>
-					<ul>
-						<li><i class="fa fa-angle-right" aria-hidden="true"></i> Aenean pulvinar augue</li>
-						<li><i class="fa fa-angle-right" aria-hidden="true"></i> Proin aliquam dui sollicitudin</li>
-						<li><i class="fa fa-angle-right" aria-hidden="true"></i> Etiam convallis gravida felis</li>
-						<li><i class="fa fa-angle-right" aria-hidden="true"></i> Vivamus sed tempor orci</li>
-					</ul>
+					
 				</div>
 				<div class="clearfix"> </div>
 			</div>
 		</div>
 	</div>
+	<div>
+		<h1>Events:- </h1>
+		<br>
+		<div class="row">
+			{% for event in eve %}
+				<div class="col-md-3">
+				<img src="{{event.poster}}" width="300px" height="300px">
+				<p class="text-center">{{event.Name}}</p>
+					{% if post.cl_id != 0  %}
+						<a href="/registereve/{{event.Name}}/" class="text-center"><button class="btn btn-primary">Send reminders</button></a>
+					{% else %}
+						<div class="text-center"><a href="/registereve/{{event.id}}"><button class="btn btn-primary">Deregister</button></a></div>
+					{% endif %}
+				</div>
+				<div class="col-md-1">
+				</div>
+			{% endfor %}
+			</div>
+	</div>
+
+	   <!--<div class="slidercontainer">  -->
+        <!--<div class="showSlide">  -->
+            <!--<img src="{% static 'images/pulkit.jpg' %}" />  -->
+            <!--<div class="content">Event1</div>  -->
+        <!--</div>  -->
+        <!--<div class="showSlide">  -->
+            <!--<img src="{% static 'images/pulkit.jpg' %}" />  -->
+            <!--<div class="content">Event2 </div>  -->
+        <!--</div>  -->
+  <!---->
+        <!--<div class="showSlide">  -->
+            <!--<img src="{% static 'images/pulkit.jpg' %}" />  -->
+            <!--<div class="content">Event3</div>  -->
+        <!--</div>  -->
+        <!--<div class="showSlide">  -->
+            <!--<img src="{% static 'images/pulkit.jpg' %}" />  -->
+            <!--<div class="content">Event4</div>  -->
+        <!--</div>  -->
+        <!--&lt;!&ndash; Navigation arrows &ndash;&gt;  -->
+        <!--<a class="left" onclick="nextSlide(-1)">â®</a>  -->
+        <!--<a class="right" onclick="nextSlide(1)">â¯</a>  -->
+    <!--</div>-->
+        <!--<script type="text/javascript">  -->
+        <!--var slide_index = 0;  -->
+        <!--displaySlides(slide_index);  -->
+  <!---->
+        <!--function nextSlide(n) {  -->
+            <!--displaySlides(slide_index += n);  -->
+        <!--}  -->
+  <!---->
+        <!--function currentSlide(n) {  -->
+            <!--displaySlides(slide_index = n);  -->
+        <!--}  -->
+  <!---->
+        <!--function displaySlides(n) {  -->
+            <!--var i;  -->
+            <!--var slides = document.getElementsByClassName("showSlide");  -->
+            <!--if (n >= slides.length) { slide_index = 0 }  -->
+            <!--if (n < 1) { slide_index = slides.length - 1 }  -->
+            <!--for (i = 0; i < slides.length; i++) {  -->
+                <!--slides[i].style.display = "none";  -->
+            <!--}  -->
+            <!--slides[slide_index].style.display = "block";  -->
+        <!--}  -->
+    <!--</script>-->
+	<!---->
+	<!-- <script type="text/javascript">
+				$('banner').css('background-image', 'url("' + {{x.image}} + '")');
+			</script> -->   
 	<!-- //welcome -->
 	<!-- popular -->
-	<div class="popular-section-wthree jarallax">
-		<div class="agileinfo-dot">
-			<div class="container">
-				<div class="w3-heading-grid popular-heading">
-					<h3>HighLights</h3>
-					<div class="agileits-border"> </div>
-				</div>
-				<div class="popular-agileinfo">
-					<div class="col-md-3 popular-grid">
-						<i class="fa fa-camera-retro" aria-hidden="true"></i>
-						<h4>First of a Kind</h4>
-						<p>Itaque earum rerum hic tenetur a sapiente delectus reiciendis maiores hasellus</p>
-					</div>
-					<div class="col-md-3 popular-grid">
-						<i class="fa fa-first-order" aria-hidden="true"></i>
-						<h4>Nulla varius</h4>
-						<p>Itaque earum rerum hic tenetur a sapiente delectus reiciendis maiores hasellus</p>
-					</div>
-					<div class="col-md-3 popular-grid popular-grid-bottom">
-						<i class="fa fa-book" aria-hidden="true"></i>
-						<h4>Morbi tempus</h4>
-						<p>Itaque earum rerum hic tenetur a sapiente delectus reiciendis maiores hasellus</p>
-					</div>
-					<div class="col-md-3 popular-grid">
-						<i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-						<h4>Approval Ratings</h4>
-						<p>Itaque earum rerum hic tenetur a sapiente delectus reiciendis maiores hasellus</p>
-					</div>
-					<div class="clearfix"> </div>
-				</div>
-			</div>
-		</div>
-	</div>
+	
 	<!-- //popular -->
 	<!-- news -->
-	<div class="news">
+	<!--<div class="news">
 		<div class="container">
 			<div class="w3-heading-grid">
 					<h3>News & Events</h3>
@@ -278,6 +360,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			</div>
 		</div>
 	</div>
+-->
 	<!-- //news -->
 			<!-- subscribe -->
 <!--		<div class="subscribe jarallax">
@@ -300,29 +383,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<!-- //subscribe -->
 
 	<!-- banner-bottom -->
-	<div class="banner-bottom" id="indro">
-		<div class="container">
-			<div class="wthree-bottom-grids">
-				<div class="col-md-6 wthree-bottom-grid">
-					<div class="w3-agileits-bottom-left">
-						<div class="w3-agileits-bottom-left-text">
-							<h3>Event 1</h3>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia lectus vel neque pretium viverra id quis sapien. Praesent vel ante leo. Quisque dapibus finibus massa</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-6 wthree-bottom-grid gbg">
-					<div class="w3-agileits-bottom-left w3-agileits-bottom-right">
-						<div class="w3-agileits-bottom-left-text">
-							<h3>Event 2</h3>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia lectus vel neque pretium viverra id quis sapien. Praesent vel ante leo. Quisque dapibus finibus massa</p>
-						</div>
-					</div>
-				</div>
-				<div class="clearfix"> </div>
-			</div>
-		</div>
-	</div>
+	
 	<!-- //banner-bottom -->
 <!-- bootstrap-pop-up -->
 	<div class="modal video-modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal">

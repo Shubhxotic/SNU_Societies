@@ -19,20 +19,13 @@ body{
 	background:#FFFFFF;
 }
 /*-- banner --*/
-.banner-1{
-	background: url(../images/555.jpg) no-repeat 0px 0px;
-    background-size: cover;
-	min-height:330px
-}
-.banner{
-	background: url(../images/555.jpg) no-repeat 0px 0px;
-    background-size: cover;
-}
+
+
 .jarallax {
     position: relative;
-    background-size: cover;
+    /*background-size: cover;
     background-repeat: no-repeat;
-    background-position: 50% 50%;
+    background-position: 50% 50%;*/
 }
 .w3layouts-header-top{
 	padding: 1em 0em;

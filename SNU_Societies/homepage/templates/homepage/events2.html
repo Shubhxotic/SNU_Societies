@@ -1,0 +1,152 @@
+
+{% load staticfiles %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Stage- Bootstrap one page Event ticket booking theme</title>
+
+    <!-- Bootstrap -->
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css" media="all" />
+    <link href="{% static 'css/custom.css' %}" rel="stylesheet">
+    
+    <!-- fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Nixie+One' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900" rel="stylesheet">
+
+  </head>
+  <body>
+
+    
+    <div class="container-fluid">
+		<div class="row">
+        	<div class="col-sm-5 left-wrapper">
+            	<div class="event-banner-wrapper">
+
+                </div>
+            </div>
+            <div class="col-sm-7 right-wrapper">
+            	<div class="event-ticket-wrapper">
+
+                  <!-- Tab panes -->
+                  <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade in active" id="buyTicket">
+                    	<div class="row">
+                        	<div class="col-md-6">
+                            	<div class="ticketBox" style="height:74%;" data-ticket-price="50000">
+                                	<div class="inactiveStatus"></div>
+                                    
+                                    <div class="row">
+ 			                       	<div class="col-xs-6">
+            							<div class="ticket-name">
+                                        	Description
+                                            <!-- <span>Standing<br>
+                                        	1 Ticket for 1 person</span> -->
+                                        </div>
+            						</div>
+                                    
+                           <!--          <div class="col-xs-6">
+                          <div class="ticket-price-count-box">
+                                            <div class="ticket-control">
+                                                <div class="input-group">
+                                                  <span class="input-group-btn">
+                                                      <button type="button" class="btn btn-default btn-number" disabled="disabled" data-type="minus" data-field="quant[1]">
+                                                          <span class="glyphicon glyphicon-minus"></span>
+                                                      </button>
+                                                  </span>
+                                                  <input type="text" name="quant[1]" class="form-control input-number" value="0" min="0" max="10">
+                                                  <span class="input-group-btn">
+                                                      <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant[1]">
+                                                          <span class="glyphicon glyphicon-plus"></span>
+                                                      </button>
+                                                  </span>
+                                                </div>
+                                            </div>
+                                            <p class="price">Rs.50000</p> 
+                                        </div>
+                        </div> -->
+                                    </div>
+                                	
+                                    
+                                    <div class="ticket-description">
+                                    	<p>{{ post.Description }}</p>
+                                    </div>
+                                            
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                            	<div class="ticketBox" data-ticket-price="40000">
+                                	<div class="inactiveStatus"></div>
+                                    
+                                    <div class="row">
+ 			                       	<div class="col-xs-6">
+            							<div class="ticket-name">Event Details</div>
+            						</div>
+  
+                                    </div>
+                                	
+                                    
+                                    <div class="ticket-description">
+                                      <p><strong>Event Name: </strong>{{post.Name}}</p>
+                                      <p><strong>Club: </strong>{{post.Club_Name}}</p>
+                                    	<p><strong>Date: </strong>{{post.date}}</p>
+                                      <p><strong>Time: </strong>{{post.time}}</p>
+                                      <p><strong>Venue: </strong>{{post.Venue}}</p>
+                                      <p><strong>HostSpeakers: </strong>{{post.HostSpeakers}}</p>
+
+                                    </div>
+                                            
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                            	<div class="ticketBox" data-ticket-price="25000">
+                                	<div class="inactiveStatus"></div>
+                                    
+                                    <div class="row">
+                              <div class="col-xs-6">
+                          <div class="ticket-name">Contact Details</div>
+                        </div>
+  
+                                    </div>
+                                	
+                                    
+                                    <div class="ticket-description">
+                                    	<p><strong>Contact Email: </strong>{{post.Email}}</p>
+                                      <p><strong>Contact Email: </strong>{{post.Email}}</p>
+                                    </div>
+                                        
+                                </div>
+                            </div>
+    
+                    </div>
+                  </div>
+                
+                </div>
+                
+                	<div class="cart">
+                <div class="row">
+
+                    <div class="col-xs-12">
+                    	<div class="text-right">
+                        	<a class="btn enable" data-toggle="modal" data-target="#ticket-details">REGISTER</a>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                       
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{%static 'js/allscript.js' %}"></script>
+  </body>
+</html>

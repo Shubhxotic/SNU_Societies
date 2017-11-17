@@ -1,3 +1,5 @@
+from celery.bin.events import events
+from celery.utils.term import colored
 from django.shortcuts import render,get_object_or_404,render_to_response
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
@@ -17,6 +19,7 @@ from passlib.hash import pbkdf2_sha256
 from PIL import Image
 import os
 import io
+
 
 
 def titleCase(s):
@@ -193,7 +196,7 @@ def register(request):
                         print(message)
                         print(from_email)
                         print(to_list)
-                        # send_mail(subject, message, from_email, to_list, fail_silently=False, html_message=html_message)
+                        send_mail(subject, message, from_email, to_list, fail_silently=False, html_message=html_message)
                         print("mail sent")
                     except:
                         print("Mail not sent")
@@ -272,6 +275,9 @@ def sel_tag(request):
     entry.interests=tags
     print(entry.interests)
     entry.save()
+    #adding user to the tag table
+
+
 
     # y = Reg_User.objects.all()
     # print(len(y))
@@ -293,12 +299,18 @@ def club(request,clubname):
     #x = Clubs.objects.all()
     #x = Clubs.objects.filter(clubname=clubname.strip())
     x = get_object_or_404(Clubs,clubname=clubname.strip())
+    events=x.Events.split(',')
+    if(events.__contains__("")):
+        events.remove("")
+    eve=[]
+    for i in events:
+        eve.append(get_object_or_404(eve_detail,pk=int(i)))
     #print(x[0].id)
     #print(x[0].clubname)
     #print("length of queryset= ",len(x))
     print("DETAILS RETRIEVED=====", x)
     return  render(
-        request, 'homepage/club.html', {"x":x}
+        request, 'homepage/club.html', {"x":x, "eve":eve}
     )
 #
 # def club(request,clubname):
@@ -326,11 +338,17 @@ def club(request,clubname):
 #     return  render(
 #         request, 'homepage/club.html', {"clubname":clubname }
 #     )
+#
+# def events_detail(request, pk):
+#     post = get_object_or_404(eve_detail, pk=pk)
+#     return render(
+#         request, 'homepage/events.html', {'post': post}
+#         )
 
 def events_detail(request, pk):
     post = get_object_or_404(eve_detail, pk=pk)
     return render(
-        request, 'homepage/events.html', {'post': post}
+        request, 'homepage/events2.html', {'post': post}
         )
 
 
@@ -381,6 +399,24 @@ def simple_upload(request):
     tags1 = tag.objects.all()
     return render(request, 'homepage/club_admin2.html', {'tags':tags1,})
 
+
+def registerEvent(request,eventname):
+    userid=Reg_User.objects.filter(Username= request.user.username)
+    ids=userid.id
+    print(ids)
+    eventsIds=eve_detail.objects.filter(Name=eventname).UserRegistered
+    if(eventsIds.UserRegistered==""):
+        eventsIds.UserRegistered += str(ids)
+    else:
+        eventsIds.UserRegistered+=","+str(ids)
+    eventsIds.save()
+    if(userid.Registered_Events==""):
+        userid.Registered_Events += str(ids)
+    else:
+        userid.Registered_Events+=","+str(ids)
+    userid.save()
+
+
 # def simple_upload(request):
 #     if not request.user.is_authenticated():
 #         return HttpResponseRedirect("/unauthenticated")
@@ -419,11 +455,13 @@ def user_profile(request):
     else:
         events = post.Registered_Events.split(',')
         print(events)
+        if(events.__contains__("")):
+            events.remove("")
         for i in events:
             eve.append(get_object_or_404(eve_detail, pk=int(i)))
-
+    colors=['primary','success','danger']
     return render(
-        request, 'homepage/profile.html', {'post': post, 'eve':eve}
+        request, 'homepage/profile.html', {'post': post, 'eve':eve, 'interests':l, 'colors':colors}
     )
     # post = get_object_or_404(Reg_User, pk=pk)
     # return render(
@@ -459,13 +497,19 @@ def edit_tag(request):
         post.interests = tags
         print(post.interests)
         post.save()
+        for i in x:
+            ta = tag.objects.get(Tag_Name__icontains=i)
+            print(ta)
+            if (ta):
+                ta.UserSubscribed = ta.UserSubscribed + ',' + str(request.user.id)
+                ta.save()
         return HttpResponseRedirect('/profile')
     else:
         # print("disajdiasjdasd ais dias aso d")
         l = post.interests.split(',')
         taglist = ["TECHNOLOGY", "Sport", "Computer Science", "Travel"]
 
-        return render(request, 'homepage/tag.html', {"l": l, "taglist": taglist})
+        return render(request, 'homepage/edit_tag.html', {"l": l, "taglist": taglist})
 
 
 def customemail(request,eventname):
