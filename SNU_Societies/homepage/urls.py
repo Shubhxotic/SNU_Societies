@@ -18,7 +18,7 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     url(r'^$', views.home, name='home'),
     url(r'^clubs/(?P<clubname>[A-Za-z]{2,20})/$', views.club, name='club'),
-    url(r'^event/(?P<pk>\d+)/$', views.events_detail, name='events_detail'),
+    url(r'^event/(?P<eventname>[\w\s\d]+)/$', views.events_detail, name='events_detail'),
     url(r'^unauthenticated/', views.unauthentic, name='unauthentic'),
     url(r'^changepass/', views.ChangePass, name='ChangePass'),
     url(r'^register/', views.register, name='register'),
@@ -33,4 +33,6 @@ urlpatterns = [
     url(r'^club_admin/$', views.simple_upload, name='simple_upload'),
     url(r'^profile/$', views.user_profile, name='user_profile'),
     url(r'^edittag/$', views.edit_tag, name='edit_tag'),
+    url(r'^registerevent/(?P<eventname>[\w\s\d]+)/$', views.registerEvent, name='registerEvent'),
+    url(r'^deregister/(?P<eventname>[\w\s\d]+)/$', views.deregister, name='deregister'),
 ]

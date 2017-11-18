@@ -7,8 +7,6 @@ from django.conf import settings
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from django import forms
-from matplotlib.sphinxext.only_directives import html_only
-
 from .forms import UserRegistrationForm, LoginForm, clubForm, ForgotPassForm, ChangePassForm, EmailCustomizeForm
 import json,os
 from .models import Reg_User,Clubs,eve_detail,tag
@@ -308,6 +306,8 @@ def club(request,clubname):
     #print(x[0].id)
     #print(x[0].clubname)
     #print("length of queryset= ",len(x))
+    print("user.id ========= ",request.user.id)
+    # post = get_object_or_404(Reg_User, id=request.user.id)
     print("DETAILS RETRIEVED=====", x)
     return  render(
         request, 'homepage/club.html', {"x":x, "eve":eve}
@@ -345,10 +345,12 @@ def club(request,clubname):
 #         request, 'homepage/events.html', {'post': post}
 #         )
 
-def events_detail(request, pk):
-    post = get_object_or_404(eve_detail, pk=pk)
+def events_detail(request, eventname):
+    post = get_object_or_404(eve_detail, Name=eventname)
+    userId = get_object_or_404(Reg_User, Username=request.user.username)
+    regOrNot = userId.Registered_Events.split(",").__contains__(str(post.id))
     return render(
-        request, 'homepage/events2.html', {'post': post}
+        request, 'homepage/events2.html', {'post': post,'regOrNot':regOrNot}
         )
 
 
@@ -401,20 +403,62 @@ def simple_upload(request):
 
 
 def registerEvent(request,eventname):
-    userid=Reg_User.objects.filter(Username= request.user.username)
-    ids=userid.id
-    print(ids)
-    eventsIds=eve_detail.objects.filter(Name=eventname).UserRegistered
-    if(eventsIds.UserRegistered==""):
-        eventsIds.UserRegistered += str(ids)
-    else:
-        eventsIds.UserRegistered+=","+str(ids)
-    eventsIds.save()
-    if(userid.Registered_Events==""):
-        userid.Registered_Events += str(ids)
-    else:
-        userid.Registered_Events+=","+str(ids)
-    userid.save()
+    if(request.method=="POST"):
+        print("YOLOOOO")
+        userid=Reg_User.objects.filter(Username= request.user.username)[0]
+        print(userid)
+        ids=userid.id
+        print(ids)
+        eventsIds=eve_detail.objects.filter(Name=eventname)[0]
+        # print(eventsIds)
+        # print(eventsIds.UserRegistered.split(',').__contains__(str(ids)))
+        if(eventsIds.UserRegistered.split(',').__contains__(str(ids))):
+            pass
+        elif(eventsIds.UserRegistered==""):
+            eventsIds.UserRegistered += str(ids)
+        else:
+            eventsIds.UserRegistered+=","+str(ids)
+        eventsIds.save()
+        if (userid.Registered_Events.split(',').__contains__(str(eventsIds.id))):
+            pass
+        if(userid.Registered_Events==""):
+            userid.Registered_Events += str(eventsIds.id)
+        else:
+            userid.Registered_Events+=","+str(eventsIds.id)
+        userid.save()
+        return HttpResponseRedirect("/")
+
+def deregister(request, eventname):
+    if (request.method == "POST"):
+        print("Dereg")
+        userid = get_object_or_404(Reg_User,Username=request.user.username)
+        print(userid)
+        ids = userid.id
+        print(ids)
+        eventsIds = get_object_or_404(eve_detail,Name=eventname)
+        # print(eventsIds)
+        # print(eventsIds.UserRegistered.split(',').__contains__(str(ids)))
+        var1=eventsIds.UserRegistered.split(',')
+        while(var1.__contains__(str(ids))):
+            var1.remove(str(ids))
+        eventsIds.UserRegistered=",".join(var1)
+        # elif (eventsIds.UserRegistered == ""):
+        #     eventsIds.UserRegistered += str(ids)
+        # else:
+        #     eventsIds.UserRegistered += "," + str(ids)
+        eventsIds.save()
+        # if (userid.Registered_Events.split(',').__contains__(str(eventsIds.id))):
+        #     pass
+        # if (userid.Registered_Events == ""):
+        #     userid.Registered_Events += str(eventsIds.id)
+        # else:
+        #     userid.Registered_Events += "," + str(eventsIds.id)
+        var1 = userid.Registered_Events.split(',')
+        while (var1.__contains__(str(eventsIds.id))):
+            var1.remove(str(eventsIds.id))
+        userid.Registered_Events = ",".join(var1)
+        userid.save()
+        return HttpResponseRedirect("/")
 
 
 # def simple_upload(request):
@@ -461,7 +505,7 @@ def user_profile(request):
             eve.append(get_object_or_404(eve_detail, pk=int(i)))
     colors=['primary','success','danger']
     return render(
-        request, 'homepage/profile.html', {'post': post, 'eve':eve, 'interests':l, 'colors':colors}
+        request, 'homepage/profile.html', {'post': post, 'eve':eve, 'lengthEve':len(eve), 'interests':l, 'colors':colors}
     )
     # post = get_object_or_404(Reg_User, pk=pk)
     # return render(
