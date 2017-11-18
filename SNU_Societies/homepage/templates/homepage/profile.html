@@ -182,7 +182,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					{% if post.cl_id != 0  %}
 						<a href="/customemail/{{event.Name}}/" class="text-center"><button class="btn btn-primary">Send reminders</button></a>
 					{% else %}
-						<div class="text-center"><a href="/deregister/{{event.id}}"><button class="btn btn-primary">Deregister</button></a></div>
+							<form action="{% url 'deregister' eventname=event.Name %}" method="post">
+                                {% csrf_token %}
+                                    <div class="text-center"><button class="btn btn-primary">DE-REGISTER</button></div>
+                            </form>
+
 					{% endif %}
 				</div>
 				<div class="col-md-1">

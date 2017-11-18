@@ -36,12 +36,12 @@
                             <form action="{% url 'edit_tag' %}" method="post">
                                 {% csrf_token %}
                                <div class="row">
-                                {% for i in post1 %}
+                                {% for i in taglist %}
                                 <div class="col-md-2" style="padding:0px;">
                                     {% if i in l %}
-                                    <input type="checkbox" name="recommendations" value="{{i.Tag_Name}}" checked>
+                                        <input type="checkbox" name="recommendations" value="{{i.Tag_Name}}" checked>
                                     {% else %}
-                                    <input type="checkbox" name="recommendations" value="{{i.Tag_Name}}">
+                                        <input type="checkbox" name="recommendations" value="{{i.Tag_Name}}">
                                     {% endif %}
                                 <label>{{i.Tag_Name}}</label>
                                 </div>

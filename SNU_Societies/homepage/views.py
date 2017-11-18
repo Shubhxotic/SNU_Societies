@@ -464,7 +464,7 @@ def deregister(request, eventname):
             var1.remove(str(eventsIds.id))
         userid.Registered_Events = ",".join(var1)
         userid.save()
-        return HttpResponseRedirect("/")
+    return HttpResponseRedirect("/")
 
 
 # def simple_upload(request):
@@ -567,6 +567,7 @@ def edit_tag(request):
         # print("disajdiasjdasd ais dias aso d")
         l = post.interests.split(',')
         post1 = tag.objects.values("Tag_Name")
+        print(post1.values())
         # taglist = ["TECHNOLOGY", "Sport", "Computer Science", "Travel"]
         return render(request, 'homepage/edit_tag.html', {"l": l, "taglist": post1.values()})
 
