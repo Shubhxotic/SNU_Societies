@@ -250,8 +250,10 @@ def Login(request):
         return render(request, 'homepage/LoginPage.html', {'form' : form, 'form1':form1 })
 
 def tags(request):
+    post= tag.objects.values("Tag_Name")
+    # print(post.values())
     return render(
-        request, 'homepage/tag.html', {}
+        request, 'homepage/tag.html', {"post": post.values()}
         )
 
 def sel_tag(request):
@@ -273,16 +275,20 @@ def sel_tag(request):
     entry.interests=tags
     print(entry.interests)
     entry.save()
+    for i in x:
+        tagIds = tag.objects.filter(Tag_Name=i)[0]
+        if (tagIds.UserSubscribed.split(',').__contains__(str(entry.id))):
+            pass
+        elif (tagIds.UserSubscribed == ""):
+            tagIds.UserSubscribed += str(entry.id)
+        else:
+            tagIds.UserSubscribed += "," + str(entry.id)
+        tagIds.save()
     #adding user to the tag table
-
-
-
     # y = Reg_User.objects.all()
     # print(len(y))
     # if request.method == 'POST':
-
     return HttpResponseRedirect("/")
-
     # return render(
     #     request, 'homepage/index.html', {'interest':x}
     # )
@@ -542,18 +548,27 @@ def edit_tag(request):
         print(post.interests)
         post.save()
         for i in x:
-            ta = tag.objects.get(Tag_Name__icontains=i)
-            print(ta)
-            if (ta):
-                ta.UserSubscribed = ta.UserSubscribed + ',' + str(request.user.id)
-                ta.save()
+            tagIds = tag.objects.filter(Tag_Name=i)[0]
+            if (tagIds.UserSubscribed.split(',').__contains__(str(post.id))):
+                pass
+            elif (tagIds.UserSubscribed == ""):
+                tagIds.UserSubscribed += str(post.id)
+            else:
+                tagIds.UserSubscribed += "," + str(post.id)
+            tagIds.save()
+        # for i in x:
+        #     ta = tag.objects.get(Tag_Name__icontains=i)
+        #     print(ta)
+        #     if (ta):
+        #         ta.UserSubscribed = ta.UserSubscribed + ',' + str(request.user.id)
+        #         ta.save()
         return HttpResponseRedirect('/profile')
     else:
         # print("disajdiasjdasd ais dias aso d")
         l = post.interests.split(',')
-        taglist = ["TECHNOLOGY", "Sport", "Computer Science", "Travel"]
-
-        return render(request, 'homepage/edit_tag.html', {"l": l, "taglist": taglist})
+        post1 = tag.objects.values("Tag_Name")
+        # taglist = ["TECHNOLOGY", "Sport", "Computer Science", "Travel"]
+        return render(request, 'homepage/edit_tag.html', {"l": l, "taglist": post1.values()})
 
 
 def customemail(request,eventname):

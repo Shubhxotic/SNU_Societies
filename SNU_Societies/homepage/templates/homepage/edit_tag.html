@@ -35,43 +35,19 @@
                         <div class="container">
                             <form action="{% url 'edit_tag' %}" method="post">
                                 {% csrf_token %}
-                                <input type="checkbox" name="recommendations" value="Technology">
-                                <label>TECHNOLOGY</label>
-                                <input type="checkbox" name="recommendations" value="Sports">
-                                <label>SPORTS</label>
-                                <input type="checkbox" name="recommendations" value="Computer Science">
-                                <label>COMPUTER SCIENCE</label>
-                                <input type="checkbox" name="recommendations" value="Travel">
-                                <label>TRAVEL</label>
-                                <input type="checkbox" name="recommendations" value="TECHNOLOGY">
-                                <label>FOOD</label>
-                                <input type="checkbox" name="recommendations" value="TECHNOLOGY">
-                                <label>FASHION</label>
-                                <br></br>
-                                <input type="checkbox" name="recommendations" value="TECHNOLOGY">
-                                <label>BEAUTY</label>
-                                <input type="checkbox" name="recommendations" value="TECHNOLOGY">
-                                <label>GAMES</label>
-                                <input type="checkbox" name="recommendations" value="TECHNOLOGY">
-                                <label>MANAGEMENT</label>
-                                <input type="checkbox" name="recommendations" value="TECHNOLOGY">
-                                <label>FINANCE</label>
-                                <input type="checkbox" name="recommendations" value="TECHNOLOGY">
-                                <label>BUSINESS</label>
-                                <br></br>
-                                <input type="checkbox" name="recommendations" value="TECHNOLOGY">
-                                <label>EDUCATION</label>
-                                <input type="checkbox" name="recommendations" value="TECHNOLOGY" >
-                                <label>CELEBRITY</label>
-                                <input type="checkbox" name="recommendations" value="TECHNOLOGY">
-                                <label>HISTORY</label>
-                                <input type="checkbox" name="recommendations" value="TECHNOLOGY">
-                                <label>DESIGN</label>
-                                <input type="checkbox" name="recommendations" value="TECHNOLOGY">
-                                <label>WEATHER</label>
-                                <input type="checkbox" name="recommendations" value="TECHNOLOGY">
-                                <label>PHOTOGRAPHY</label>
-
+                               <div class="row">
+                                {% for i in post1 %}
+                                <div class="col-md-2" style="padding:0px;">
+                                    {% if i in l %}
+                                    <input type="checkbox" name="recommendations" value="{{i.Tag_Name}}" checked>
+                                    {% else %}
+                                    <input type="checkbox" name="recommendations" value="{{i.Tag_Name}}">
+                                    {% endif %}
+                                <label>{{i.Tag_Name}}</label>
+                                </div>
+                                <br>
+                                 {% endfor %}
+                                </div>
                      <input type="submit"/ value="SUBMIT">
                     </form>        
    
