@@ -59,8 +59,12 @@ def home(request):
     #                     'subject': 'Thank you for registering with us '+username+' \n You will now be recieving Notifications for howabouts at SNU in an all new Way. Goodbye to the spam mails. \n Thanks for registering. Have a nice day!!',
     #                     'linkTosite': 'www.google.com',},
     #                    to_emails=["sa126@snu.edu.in","ads@aopsd.sopd"])
-
-    return render(request, 'homepage/index.html', {'form': form, 'form1': form1})
+    post1 = Clubs.objects.values_list("clubname")
+    print(post1)
+    clubnames=[]
+    for i in post1:
+        clubnames.append(i[0])
+    return render(request, 'homepage/index.html', {'form': form, 'form1': form1, 'clubnames':clubnames})
 
 # def club(request):
 #     return render(

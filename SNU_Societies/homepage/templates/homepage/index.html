@@ -339,9 +339,10 @@ div.sign_in{
 											<!--<input type="checkbox" name="recommendations" value="TECHNOLOGY">-->
                                 <!--<label>EDUCATION</label>-->
 
-
-											<li name="club" value="snuphoria"><a href="/clubs/snuphoria/">Snuphoria</a></li>
-											<li><a href="/clubs/inspiria/">Inspiria</a></li>
+										{% for i in clubnames %}
+											<li name="club" value="{{i}}"><a href="/clubs/{{i}}/">{{i|title}}</a></li>
+											{% endfor %}
+											<!--<li><a href="/clubs/inspiria/">Inspiria</a></li>-->
 
 										</ul>
 									</div>
