@@ -113,8 +113,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<li><a href="mailto:info@example.com">{{ request.user.email }}</a></li>
 				<li>{{ request.user.username }}</li>
 			</ul>
-			<div class=" yolo col-md-6">
-				<a href="{% url 'ChangePass' %}"><button type="button">Change Password</button></a>
+			<div class=" yolo col-md-12 row">
+				<a href="{% url 'ChangePass' %}"><button type="button" class="col-md-5">Change Password</button></a>
+                <div class="col-md-2"></div>
+				{% if post.cl_id != 0 %}<a href="{% url 'simple_upload' %}"><button type="button" class="col-md-5">Create Event</button></a>{% endif %}
 			</div>
 
 			<div class="clearfix"></div>
@@ -177,10 +179,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				{% endif %}
 			{% for event in eve %}
 				<div class="col-md-3">
+					<h2 class="text-center" style="color: #444;">{{event.Name}}</h2>
+					<br>
 				<img src="{{event.poster}}" width="300px" height="300px">
-				<p class="text-center">{{event.Name}}</p>
+				<!--<p class="text-center">{{event.Name}}</p>-->
+					<br><br>
 					{% if post.cl_id != 0  %}
-						<a href="/customemail/{{event.Name}}/" class="text-center"><button class="btn btn-primary">Send reminders</button></a>
+					<div class="row" style=" margin:auto; "><div class="col-md-3"></div><a href="/customemail/{{event.Name}}/" class="col-md-6" style="margin:auto;"><button class="btn btn-primary" style=" margin:auto;">Send reminders</button></a></div>
 					{% else %}
 							<form action="{% url 'deregister' eventname=event.Name %}" method="post">
                                 {% csrf_token %}
@@ -188,6 +193,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             </form>
 
 					{% endif %}
+					<br>
 				</div>
 				<div class="col-md-1">
 				</div>

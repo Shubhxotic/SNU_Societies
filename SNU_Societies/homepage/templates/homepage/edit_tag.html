@@ -3,60 +3,46 @@
 <html>
 <head>
     <title>Select your Tags</title>
-<link href="{% static 'css/_all.css' %}" rel="stylesheet" type="text/css" media="all" />
-<link href="{% static 'css/aero.css' %}" rel="stylesheet" type="text/css" media="all" />
-<link href="{% static 'css/blue.css' %}" rel="stylesheet" type="text/css" media="all" />
-<link href="{% static 'css/green.css' %}" rel="stylesheet" type='text/css' media="all">
-<link href="{% static 'css/grey.css' %}" rel='stylesheet' type='text/css' media="all"/>
-<link href="{% static 'css/orange.css' %}" rel="stylesheet" type="text/css" media="all" />
-<link href="{% static 'css/pink.css' %}" rel="stylesheet" type="text/css" media="all" />
-<link href="{% static 'css/purple.css' %}" rel="stylesheet" type="text/css" media="all" />
-<link href="{% static 'css/red.css' %}" rel="stylesheet" type="text/css" media="all" />
-<link href="{% static 'css/yellow.css' %}" rel="stylesheet" type="text/css" media="all" />
-<link href="{% static 'css/line.css' %}" rel="stylesheet" type="text/css" media="all" />
 <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css" media="all" />
-
+<link href="https://fonts.googleapis.com/css?family=Montserrat|Raleway" rel="stylesheet">
 <script type="text/javascript" src="{% static 'js/icheck.js' %}"></script>
 </head>
-<body>
+
+<body style="background-image : linear-gradient(rgba(255,255,255,0.5),rgba(255,255,255,0.8)), url('http://epronunciation.com/wp-content/uploads/Follow-Your-Passion.jpg'); color: black; background-size: center; background-color: rgba(0,0,0,0); background-size: 100em 100vh; background-repeat: no-repeat;">
     <!--<div class="header" id="home">-->
-    <div class="container">
+    <br><br><br>
+    <div class="container " >
         <ul>
-
-        <p>hello</p>
-        <p>welcome {{ user.username }}</p>
-
-
-
-             <div class="container">
-                            <h3 >What is your<span> Passion</span></h3>
+        <div style="margin: auto;" class="row">
+            <h1 style="font-family: 'Montserrat', sans-serif;  font-size: 35px;">Hello, Welcome {{ user.username }}</h1>
+            <div>
+                <h1 style="font-family: 'Raleway', sans-serif; font-size: 30px;" >What is your<span> Passion???</span></h1>
                         </div>
-
                         <div class="container">
                             <form action="{% url 'edit_tag' %}" method="post">
-                                {% csrf_token %}
-                               <div class="row">
+                            {% csrf_token %}
+                                <div class="row">
                                 {% for i in taglist %}
-                                <div class="col-md-2" style="padding:0px;">
-                                    {% if i in l %}
-                                        <input type="checkbox" name="recommendations" value="{{i.Tag_Name}}" checked>
-                                    {% else %}
-                                        <input type="checkbox" name="recommendations" value="{{i.Tag_Name}}">
-                                    {% endif %}
-                                <label>{{i.Tag_Name}}</label>
-                                </div>
-                                <br>
+                                <!--<div class="col-md-2" style="padding:0px;">-->
+                                    <!--<input type="checkbox" name="recommendations" value="{{i.Tag_Name}}" >-->
+                                    <!--<label style="font-size: 20px;"> {{i.Tag_Name}}</label>-->
+                                <!--</div>-->
+                                            <div class="col-md-3" style="padding:0px;">
+                                            {% if i in l %}
+                                                <input type="checkbox" name="recommendations" value="{{i.Tag_Name}}" checked>
+                                            {% else %}
+                                                <input style="font-size: 30px;"  type="checkbox" name="recommendations" value="{{i.Tag_Name}}">
+                                            {% endif %}
+                                        <label style="font-size:25px;">{{i.Tag_Name}}</label>
+                                        </div>
                                  {% endfor %}
                                 </div>
-                     <input type="submit"/ value="SUBMIT">
-                    </form>        
-   
+                                <br> <br><div class="row" style="width: 100%; text-center;">
+                                <div class="col-md-5"></div><input type="submit" class="btn btn-success col-md-2" value="SUBMIT" ></div>
+
+                            </form>
             </div>
-        
-    
-        
-    
-</div>
+        </div></ul></div>
 
 
 

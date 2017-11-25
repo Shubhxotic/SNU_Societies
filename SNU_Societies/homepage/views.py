@@ -29,6 +29,7 @@ def compress(original_file, max_size, scale):
     # path=os.path.join(os.getcwd(),original_file)
     # print("Path to be appended:- ",path)
     original_file="."+original_file
+    original_file=original_file.replace("%20"," ")
     assert(0.0 < scale < 1.0)
     orig_image = Image.open(original_file)
     cur_size = orig_image.size
@@ -48,6 +49,9 @@ def compress(original_file, max_size, scale):
         print(os.path.getsize(original_file))
 
 # Create your views here.
+def about(request):
+    return render(request,"homepage/about.html",{})
+
 def home(request):
     form = UserRegistrationForm()
     form1 = LoginForm()
@@ -61,10 +65,12 @@ def home(request):
     #                    to_emails=["sa126@snu.edu.in","ads@aopsd.sopd"])
     post1 = Clubs.objects.values_list("clubname")
     print(post1)
+    clubs=Clubs.objects.all()
+    print(clubs)
     clubnames=[]
     for i in post1:
         clubnames.append(i[0])
-    return render(request, 'homepage/index.html', {'form': form, 'form1': form1, 'clubnames':clubnames})
+    return render(request, 'homepage/index.html', {'form': form, 'form1': form1, 'clubnames':clubnames, 'clubs':clubs})
 
 # def club(request):
 #     return render(
@@ -146,7 +152,7 @@ def ChangePass(request):
     else:
         form = ChangePassForm()
         return render(
-            request, 'homepage/changePass.html',{"form": form}
+            request, 'homepage/changepass2.html',{"form": form}
         )
 
 
@@ -377,6 +383,7 @@ def simple_upload(request):
                 request, 'homepage/AdminRights.html'
             )
     if request.method == 'POST' and request.FILES['myfile']:
+        print("hello")
         myfile = request.FILES['myfile']
         a= request.POST['name']
         b= request.POST['clubname']
@@ -400,14 +407,55 @@ def simple_upload(request):
         print("uploaded_file_url= ",uploaded_file_url)
         compress(uploaded_file_url,2097152,0.9)
         Eve_Detail_instance = eve_detail.objects.create(id=xa+1,Name=a,Club_Name=b,Description=h,Email=f,Venue=c,poster=uploaded_file_url,time=e,date=d,HostSpeakers=i,interests=g)
+        clubObj=Clubs.objects.filter(clubname__icontains=b.strip())[0]
+        if (len(clubObj.Events.strip().split())==0):
+            clubObj.Events = str(xa+1)
+        else:
+            clubObj.Events += ","+str(xa + 1)
+        print(clubObj.clubname, clubObj.Events)
+        clubObj.save()
+
+        for i in g:
+            tagx=tag.objects.filter(Tag_Name__icontains = i)[0]
+            print(tagx)
+            emaillist=[]
+            for j in tagx.UserSubscribed.split(","):
+                emaillist.append(get_object_or_404(Reg_User,pk=j).Email)
+        subject = b+" presents "+a
+        message="xyz"
+        emaillist=list(set(emaillist))
+        print("emaillist=",emaillist)
+
+        #WRITE EMAIL
+        print("Emails ready")
+        html_message = loader.render_to_string(
+            os.getcwd() + '/homepage/templates/homepage/EventCreatedEmail.html',
+            {
+                'evename' : a,
+                'clubname' : b,
+                'venue' : c,
+                'date' : d,
+                'time' : e,
+                'desc': h,
+                'poster': uploaded_file_url,
+            }
+        )
+            # print(emails)
+            # send_mail(subject,message,from_email, ["sa126@snu.edu.in"])
+        from_email = settings.EMAIL_HOST_USER
+        send_mail(subject, message, from_email, emaillist , html_message=html_message, fail_silently=False)
+        print("Emails sent")
+        # if (tagIds.UserSubscribed.split(',')
         #x = Clubs.objects.get(clubname=clubname.strip())
         #print (x.image)
         #x.image=uploaded_file_url
         #x.save()
 
-        return render(request, 'homepage/club_admin2.html', {
-            'uploaded_file_url': uploaded_file_url,
-        })
+        # return render(request, 'homepage/index.html', {
+        #     'uploaded_file_url': uploaded_file_url,
+        # })
+        return HttpResponseRedirect("/")
+
     tags1 = tag.objects.all()
     return render(request, 'homepage/club_admin2.html', {'tags':tags1,})
 
@@ -501,6 +549,7 @@ def user_profile(request):
     l = post.interests.split(',')
     print(l)
     eve = []
+    userreg = []
     if(post.cl_id!=0):
         events = get_object_or_404(Clubs, pk=post.cl_id).Events.split(',')
         print(events)
@@ -511,11 +560,13 @@ def user_profile(request):
         print(events)
         if(events.__contains__("")):
             events.remove("")
+
         for i in events:
             eve.append(get_object_or_404(eve_detail, pk=int(i)))
+            userreg.append(len(get_object_or_404(eve_detail, pk=int(i)).UserRegistered.split(',')))
     colors=['primary','success','danger']
     return render(
-        request, 'homepage/profile.html', {'post': post, 'eve':eve, 'lengthEve':len(eve), 'interests':l, 'colors':colors}
+        request, 'homepage/profile.html', {'post': post, 'eve':eve, 'lengthEve':len(eve), 'interests':l, 'colors':colors, 'userreg':userreg}
     )
     # post = get_object_or_404(Reg_User, pk=pk)
     # return render(
@@ -604,7 +655,9 @@ def customemail(request,eventname):
 
                 #get the recipient list from
                 r=eve_detail.objects.filter(Name__iexact=eventname)[0].UserRegistered
-                print(r)
+                print("r",r)
+                if(not r):
+                    return HttpResponseRedirect("/")
                 # print(r[1:-1].split(','))
                 if(r[0]=="'"):
                     r=r[1:-1]
@@ -625,4 +678,4 @@ def customemail(request,eventname):
             return HttpResponseRedirect("/")
         else:
             form=EmailCustomizeForm()
-            return render(request, 'homepage/emailEditPage.html', {'form': form, "eventName": eventname})
+            return render(request, 'homepage/email-edit.html', {'form': form, "eventName": eventname})

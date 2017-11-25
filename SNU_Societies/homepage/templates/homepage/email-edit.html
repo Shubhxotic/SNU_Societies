@@ -1,0 +1,76 @@
+<!--Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+{% load staticfiles %}
+<html>
+<head>
+<title>Construct Email</title>
+<link href="{% static 'css/email.css' %}" rel="stylesheet" type="text/css" media="all"/>
+<!-- Custom Theme files -->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Sign Up Password Form Widget Responsive, Login form web template, Sign up Web Templates, Flat Web Templates, Login signup Responsive web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+<!--google fonts-->
+<link href='//fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+<script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+</head>
+<body>
+	<!-- login -->
+		<div class="login-section w3l">	<a href="{% url 'home' %}"><i class="fa fa-home fa-5x" style="color:white;"></i></a>
+			<h1>Welcome {{user}}</h1>
+		<!--<h3>Write Email for {{eventName}}</h3>-->
+		<!--<div class="sig-top agileits">-->
+
+	        <!--<div class="login">-->
+					<!--<div class="clear">-->
+					<!--</div>-->
+				<!--</div>-->
+
+			<!--<div class="clear"></div>-->
+			<!--<div class="clear"></div>-->
+			<!--</div>-->
+			<div class="sig-btm w3agile">
+			<div class="signup">
+			<div class="modal-content modal-info">
+				<div class="modal-header">
+					<h3>Write Email for {{eventName}}</h3>
+				</div>
+				<div class="modal-body modal-spa">
+					<div class="login-form">
+						<form action="#" method="post" id="signup">
+							{% csrf_token %}
+							<ol>
+									{% for field in form %}
+
+										{% if field.name == "Subject" %}
+											<strong style="color: white; ">{{ field.label_tag }}</strong> <input type="text"  id="{{ field.name }}" name="{{ field.name }}" style="width: 100%;">
+										{% else %}
+											<strong style="color: white; ">{{ field.label_tag }}</strong><br><textarea rows="15" cols="50" id="{{ field.name }}" name="{{ field.name }}" style="background-color: rgba(0,0,0,0); width: 100%; color: white;" ></textarea><br><br>
+										{% endif %}
+									{% endfor %}
+									
+									
+									<!-- <p id="sub">Subject:</p>
+									<input type="text" id="subject" name="email" >
+								  <p id="bod">Body:</p>
+									<input type="text" id="email" name="email" >
+									</p> -->
+								</li>
+							</ol>
+								<input type="submit" value="SEND">
+						</form>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+
+</body>
+</html>

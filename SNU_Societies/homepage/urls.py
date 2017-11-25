@@ -22,7 +22,7 @@ urlpatterns = [
     url(r'^unauthenticated/', views.unauthentic, name='unauthentic'),
     url(r'^changepass/', views.ChangePass, name='ChangePass'),
     url(r'^register/', views.register, name='register'),
-    url(r'^customemail/(?P<eventname>[A-Za-z]{2,30})/$', views.customemail, name='customemail'),
+    url(r'^customemail/(?P<eventname>[\w\s\d]+)/$', views.customemail, name='customemail'),
     url(r'^forgotpass/', views.ForgotPass, name='ForgotPass'),
     # url(r'^login/$', auth_views.login,{'template_name':'homepage/LoginPage.html'}),
     # url(r'^logout/$', auth_views.logout, {'template_name':'homepage/index.html'}),
@@ -35,4 +35,5 @@ urlpatterns = [
     url(r'^edittag/$', views.edit_tag, name='edit_tag'),
     url(r'^registerevent/(?P<eventname>[\w\s\d]+)/$', views.registerEvent, name='registerEvent'),
     url(r'^deregister/(?P<eventname>[\w\s\d]+)/$', views.deregister, name='deregister'),
+    url(r'^about/$', views.about, name='about'),
 ]

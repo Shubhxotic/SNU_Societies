@@ -136,6 +136,7 @@ class EmailCustomizeForm(forms.Form):
         required=True,
         label='Message Body',
         max_length=3200,
+        widget=forms.Textarea(),
         # widget=forms.PasswordInput(),
         # blank=False,
         # null=False,

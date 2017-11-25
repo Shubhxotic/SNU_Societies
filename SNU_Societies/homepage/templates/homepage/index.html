@@ -5,7 +5,6 @@ License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 {% load staticfiles %}
--
 <html>
 <head>
 <title>Event Manager</title>
@@ -44,16 +43,55 @@ div.sign_in{
 	position: relative;
 	left: -200px;
 }
-</style>					-->
-<script type="text/javascript" src="{% static 'js/icheckTagModal.js' %}"></script>
+</style>
+-->
+	<style>
+.dropbtn {
+    <!--background-color: #4CAF50;-->
+    color: white;
+    padding: 10px;
+    <!--font-size: 16px;-->
+    border: none;
+    cursor: pointer;
+    border-radius: 100%;
+    border: 1px solid white;
+}
 
+.dropbtn:hover, .dropbtn:focus {
+    background-color: #bbb;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+.dropdown a:hover {background-color: #f1f1f1}
+.show {display:block;}
+</style>
+
+<script type="text/javascript" src="{% static 'js/icheckTagModal.js' %}"></script>
 </head>
-<body>
+<body style="margin: 0px; padding: 0px; background-color: #eee;">
 <!-- header -->
 <!-- //header -->
 <!-- banner -->
-
-
 <!-- Adding SignIn and SignUp Modals -->
 <!-- Modal1 -->
 		<div class="modal fade" id="myModal1" tabindex="-1" role="dialog">
@@ -220,12 +258,6 @@ div.sign_in{
 			</div>
 		</div>
 <!-- //Modal2 -->
-
-
-
-
-
-
 <div class="modal fade" id="myModal3" tabindex="-1" role="dialog">
 			<div class="modal-dialog">
 				<!-- Modal content-->
@@ -306,7 +338,6 @@ div.sign_in{
 				<!-- //Modal content-->
 			</div>
 		</div>
-
 <div class="ban-top" style="margin-top: 0px;">
 	<div class="container" style="margin-top: 0px; top: 0;">
 		<div class="top_nav_left">
@@ -326,35 +357,29 @@ div.sign_in{
 				  <ul class="nav navbar-nav menu__list" >
 					<li class="active menu__item menu__item--current"><a class="menu__link" href="index.html">Home <span class="sr-only">(current)</span></a></li>
 					<!-- <li class=" menu__item"><a class="menu__link" href="about.html">About</a></li>
- -->					<li class="dropdown menu__item">
-						<a href="#" class="dropdown-toggle menu__link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Club<span class="caret"></span></a>
-							<ul class="dropdown-menu multi-column columns-3">
-								<div class="agile_inner_drop_nav_info">
-									<div class="col-sm-3 multi-gd-img">
-										<ul class="multi-column-dropdown">
+ <!--&ndash;&gt;					<li class="dropdown menu__item">-->
+						<!--<a href="#" class="dropdown-toggle menu__link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Club<span class="caret"></span></a>-->
+							<!--<ul class="dropdown-menu multi-column columns-3">-->
+								<!--<div class="agile_inner_drop_nav_info">-->
+									<!--<div class="col-sm-3 multi-gd-img">-->
+										<!--<ul class="multi-column-dropdown">-->
+											<!--&lt;!&ndash; Links here have to be changed to redirect to club.html  &ndash;&gt;-->
+											<!--&lt;!&ndash;<input type="checkbox" name="recommendations" value="TECHNOLOGY">&ndash;&gt;-->
+                                <!--&lt;!&ndash;<label>EDUCATION</label>&ndash;&gt;-->
 
-											<!-- Links here have to be changed to redirect to club.html  -->
-
-
-											<!--<input type="checkbox" name="recommendations" value="TECHNOLOGY">-->
-                                <!--<label>EDUCATION</label>-->
-
-										{% for i in clubnames %}
-											<li name="club" value="{{i}}"><a href="/clubs/{{i}}/">{{i|title}}</a></li>
-											{% endfor %}
-											<!--<li><a href="/clubs/inspiria/">Inspiria</a></li>-->
-
-										</ul>
-									</div>
-
-
-									<div class="clearfix"></div>
-								</div>
-							</ul>
-					</li>
+										<!--{% for i in clubnames %}-->
+											<!--<li name="club" value="{{i}}"><a href="/clubs/{{i}}/">{{i|title}}</a></li>-->
+											<!--{% endfor %}-->
+											<!--&lt;!&ndash;<li><a href="/clubs/inspiria/">Inspiria</a></li>&ndash;&gt;-->
+										<!--</ul>-->
+									<!--</div>-->
+									<!--<div class="clearfix"></div>-->
+								<!--</div>-->
+							<!--</ul>-->
+					<!--</li>-->
+					  <li class=" menu__item"><a class="menu__link scroll" href="#clubsscrl">Clubs</a></li>
 					<li class=" menu__item"><a class="menu__link scroll" href="#gallery">Gallery</a></li>
-					<li class=" menu__item"><a class="menu__link scroll" href="#team">Our Team</a></li>
-					<li class=" menu__item"><a class="menu__link" href="#about">About</a></li>
+					<li class=" menu__item"><a class="menu__link" href="{% url 'about' %}">About</a></li>
 
 			<!--		<li class=" menu__item"><a class="menu__link scroll" href="#contact">Contact</a></li>				-->
 				  </ul>
@@ -363,19 +388,26 @@ div.sign_in{
 			</nav>
 		</div>
 		<li class=" menu__item" style="position: absolute; right:20px;">
-			<button id="btx1">Click ME</button>
+			{% if user.is_authenticated %}
+		    	<p class="text-white"> Welcome {{ user.username }} !!</p>
+			<div class="dropdown">
+			<!--<button onclick="myFunction()" class="dropbtn">Dropdown</button>-->
+				<i onclick="myFunction()" class="fa fa-user fa-2x dropbtn"></i>
+			  <div id="myDropdown" class="dropdown-content">
+				<div style="background-color: #aaa; padding:0;"><a href="/profile">Profile</a></div>
+				  <div style="background-color: #aaa; padding:0;"><a href="/logout">Logout</a></div>
+			  </div>
+			</div>
+
 			<!-- <div class="header" id="home"> -->
 			<!-- <div class="container"> -->
-				<ul>
-					{% if user.is_authenticated %}
-		    	<p class="text-white"> Welcome {{ user.username }} !!</p>
-		    	<p><a href="/logout"><button class="btn btn-primary">Logout</button></a></p>
-		    	{% else %}
 
-                    <p><a href="#" data-toggle="modal" data-target="#myModal6"> SignUp </a></p>
+		    	{% else %}
+				<ul class="row">
+                    <li class="col-md-5"><a href="#" data-toggle="modal" data-target="#myModal6" class="btn btn-success"> SignUp </a></li>
 		    	<!--<p><a href="/login"><button class="btn btn-primary w-90 p-3">Login</button></a></p>-->
                 <!--<li> <a href="#" data-toggle="modal" data-target="#myModal3"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Tags </a></li>-->
-					<li> <a href="#" data-toggle="modal" data-target="#myModal1"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Login </a></li>
+					<li class="col-md-5"> <a href="#" data-toggle="modal" data-target="#myModal1" class="btn btn-primary"> Login </a></li>
 		    	<!-- <p><a href="/register"><button class="btn btn-success w-90">Register</button></a></p> -->
 		    	{% endif %}
 				</ul>
@@ -520,9 +552,9 @@ div.sign_in{
 			<div class="item active">
 				<div class="container">
 					<div class="carousel-caption">
-						<h3>The Biggest <span>Sale</span></h3>
-						<p>Special for today</p>
-						<a class="hvr-outline-out button2" href=" ">Shop Now </a>
+						<!--<h3>The Biggest <span>Sale</span></h3>-->
+						<!--<p>Special for today</p>-->
+						<!--<a class="hvr-outline-out button2" href=" ">Shop Now </a>-->
 					</div>
 				</div>
 			</div>
@@ -574,46 +606,45 @@ div.sign_in{
 		<!-- The Modal -->
     </div>
 	<!-- //banner -->
-    <div class="banner_bottom_agile_info">
+    <div class="banner_bottom_agile_info" id="clubsscrl">
 	    <div class="container">
-				<h3 class="wthree_text_info">CL<span>UBS</span></h3>
-          <div class="banner_bottom_agile_info_inner_w3ls">
-           <div class="col-md-3 wthree_banner_bottom_grid_three_left1 grid" >
-						<figure class="effect-roxy">
-							<img src="{% static 'images/bottom1.jpg' %}" alt=" " class="img-responsive" />
-							<figcaption>
-								<h3><span>F</span>all Ahead</h3>
-								<p>New Arrivals</p>
-							</figcaption>
-						</figure>
+				<h3 class="wthree_text_info">CLUBS</h3>
+          <div class="banner_bottom_agile_info_inner_w3ls row">
+           		{% for i in clubs %}
+			  		<div class="col-md-3 " style="text-align: center;">
+						<a href="/clubs/{{i.clubname}}" ><img src="static/images/{{i.image}}" alt=" " class="img-responsive" width="200px" height="200px" style="padding: 0px; margin: 0px; height:200px; width: 200px;"/></a>
+							<!--<figcaption>-->
+								<h3>{{i.clubname}}</h3>
+							<!--</figcaption>-->
 					</div>
-					 <div class="col-md-3 wthree_banner_bottom_grid_three_left1 grid" >
-						<figure class="effect-roxy">
-							<img src="{% static 'images/bottom2.jpg' %}" alt=" " class="img-responsive" />
-							<figcaption>
-								<h3><span>F</span>all Ahead</h3>
-								<p>New Arrivals</p>
-							</figcaption>
-						</figure>
-					</div>
-					<div class="col-md-3 wthree_banner_bottom_grid_three_left1 grid" >
-					 <figure class="effect-roxy">
-						 <img src="{% static 'images/bottom2.jpg' %}" alt=" " class="img-responsive" />
-						 <figcaption>
-							 <h3><span>F</span>all Ahead</h3>
-							 <p>New Arrivals</p>
-						 </figcaption>
-					 </figure>
-				 </div>
-				 <div class="col-md-3 wthree_banner_bottom_grid_three_left1 grid" >
-					<figure class="effect-roxy">
-						<img src="{% static 'images/bottom1.jpg' %}" alt=" " class="img-responsive" />
-						<figcaption>
-							<h3><span>F</span>all Ahead</h3>
-							<p>New Arrivals</p>
-						</figcaption>
-					</figure>
-				</div>
+				{% endfor %}
+
+			<!--<div class="col-md-3 wthree_banner_bottom_grid_three_left1 grid" >-->
+						<!--<figure class="effect-roxy">-->
+							<!--<img src="{% static 'images/snuphoria.jpg' %}" alt=" " class="img-responsive" />-->
+							<!--<figcaption>-->
+								<!--<h3>Fall Ahead</h3>-->
+							<!--</figcaption>-->
+						<!--</figure>-->
+					<!--</div>-->
+			  <!--<div class="col-md-3 wthree_banner_bottom_grid_three_left1 grid" >-->
+					 <!--<figure class="effect-roxy">-->
+						 <!--<img src="{% static 'images/bottom2.jpg' %}" alt=" " class="img-responsive" />-->
+						 <!--<figcaption>-->
+							 <!--<h3><span>F</span>all Ahead</h3>-->
+							 <!--<p>New Arrivals</p>-->
+						 <!--</figcaption>-->
+					 <!--</figure>-->
+				 <!--</div>-->
+				 <!--<div class="col-md-3 wthree_banner_bottom_grid_three_left1 grid" >-->
+					<!--<figure class="effect-roxy">-->
+						<!--<img src="{% static 'images/bottom1.jpg' %}" alt=" " class="img-responsive" />-->
+						<!--<figcaption>-->
+							<!--<h3><span>F</span>all Ahead</h3>-->
+							<!--<p>New Arrivals</p>-->
+						<!--</figcaption>-->
+					<!--</figure>-->
+				<!--</div>-->
 					<div class="clearfix"></div>
 		    </div>
 				<!--<div class="banner_bottom_agile_info_inner_w3ls">-->
@@ -886,110 +917,97 @@ div.sign_in{
   <!-- banner-bootom-w3-agileits -->
 	<div class="banner-bootom-w3-agileits">
 	<div class="container">
-		<h3 class="wthree_text_info" id="gallery">Image <span>Gallery</span></h3>
-
+		<h3 class="wthree_text_info" id="gallery">Image Gallery</h3>
 		<div class="col-md-5 bb-grids bb-left-agileits-w3layouts">
 			<a href="wo ">
 			   <div class="bb-left-agileits-w3layouts-inner grid">
 					<figure class="effect-roxy">
-							<img src="{% static 'images/bb1.jpg' %}" alt=" " class="img-responsive" />
-							<figcaption>
-								<h3><span>S</span>ale </h3>
-								<p>Upto 55%</p>
-							</figcaption>
+							<img src="{% static 'images/concert.JPG' %}" alt=" " class="img-responsive"  style="height: 400px;"/>
 						</figure>
 			    </div>
+				<div class="bb-middle-agileits-w3layouts forth grid">
+						<figure class="effect-roxy">
+							<img src="{% static 'images/coding.jpg' %}" alt=" " class="img-responsive"  style="height: 400px;">
+						</figure>
+					</div>
 			</a>
 		</div>
-		<div class="col-md-7 bb-grids bb-middle-agileits-w3layouts">
+
+		<div class="col-md-7 bb-grids bb-middle-agileits-w3layouts" >
 		      <a href=" ">
 		       <div class="bb-middle-agileits-w3layouts grid">
 			           <figure class="effect-roxy">
-							<img src="{% static 'images/bottom3.jpg' %}" alt=" " class="img-responsive" />
-							<figcaption>
-								<h3><span>S</span>ale </h3>
-								<p>Upto 55%</p>
-							</figcaption>
+							<img src="{% static 'images/tt.JPG' %}" alt=" " class="img-responsive" style="height: 800px;"/>
 						</figure>
 		        </div>
 				</a>
-				<a href=" ">
-		      <div class="bb-middle-agileits-w3layouts forth grid">
-						<figure class="effect-roxy">
-							<img src="{% static 'images/bottom4.jpg' %}" alt=" " class="img-responsive">
-							<figcaption>
-								<h3><span>S</span>ale </h3>
-								<p>Upto 65%</p>
-							</figcaption>
-						</figure>
-					</div>
-					</a>
 		<div class="clearfix"></div>
 	</div>
+
 	</div>
     </div>
 		<!-- team -->
-		<div id="team" class="team">
-			<div class="container">
-				<h3 class="wthree_text_info">OUR <span>TEAM</span></h3>
-				</div>
-				<div class="w3_agile_team_grids">
-					<div class="col-md-3 w3_agile_team_grid">
-						<div class="hover14 column">
-							<figure><img src="{% static 'images/6.jpg' %}" alt=" " class="img-responsive" /></figure>
-						</div>
-						<h3>Ankit Kumar</h3>
-						<p>Designer</p>
-						<ul class="agileits_social_list">
-							<li><a href="#" class="w3_agile_facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-							<li><a href="#" class="agile_twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-							<li><a href="#" class="w3_agile_dribble"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
-							<li><a href="#" class="w3_agile_vimeo"><i class="fa fa-vimeo" aria-hidden="true"></i></a></li>
-						</ul>
-					</div>
-					<div class="col-md-3 w3_agile_team_grid">
-						<div class="hover14 column">
-							<figure><img src="{% static 'images/71.jpg' %}" alt=" " class="img-responsive" /></figure>
-						</div>
-						<h3>Shubham Agarwal</h3>
-						<p>Designer</p>
-						<ul class="agileits_social_list">
-							<li><a href="#" class="w3_agile_facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-							<li><a href="#" class="agile_twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-							<li><a href="#" class="w3_agile_dribble"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
-							<li><a href="#" class="w3_agile_vimeo"><i class="fa fa-vimeo" aria-hidden="true"></i></a></li>
-						</ul>
-					</div>
-					<div class="col-md-3 w3_agile_team_grid">
-						<div class="hover14 column">
-							<figure><img src="{% static 'images/81.jpg' %}" alt=" " class="img-responsive" /></figure>
-						</div>
-						<h3>Pulkit Luthra</h3>
-						<p>Designer</p>
-						<ul class="agileits_social_list">
-							<li><a href="#" class="w3_agile_facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-							<li><a href="#" class="agile_twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-							<li><a href="#" class="w3_agile_dribble"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
-							<li><a href="#" class="w3_agile_vimeo"><i class="fa fa-vimeo" aria-hidden="true"></i></a></li>
-						</ul>
-					</div>
-					<div class="col-md-3 w3_agile_team_grid">
-						<div class="hover14 column">
-							<figure><img src="{% static 'images/91.jpg' %}" alt=" " class="img-responsive" /></figure>
-						</div>
-						<h3>Abhik sarkar</h3>
-						<p>Designer</p>
-						<ul class="agileits_social_list">
-							<li><a href="#" class="w3_agile_facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-							<li><a href="#" class="agile_twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-							<li><a href="#" class="w3_agile_dribble"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
-							<li><a href="#" class="w3_agile_vimeo"><i class="fa fa-vimeo" aria-hidden="true"></i></a></li>
-						</ul>
-					</div>
-					<div class="clearfix"> </div>
-				</div>
-			</div>
-		</div>
+		<!--<div id="team" class="team">-->
+			<!--<div class="container">-->
+				<!--<h3 class="wthree_text_info">OUR <span>TEAM</span></h3>-->
+				<!--</div>-->
+				<!--<div class="w3_agile_team_grids">-->
+					<!--<div class="col-md-3 w3_agile_team_grid">-->
+						<!--<div class="hover14 column">-->
+							<!--<figure><img src="{% static 'images/6.jpg' %}" alt=" " class="img-responsive" /></figure>-->
+						<!--</div>-->
+						<!--<h3>Ankit Kumar</h3>-->
+						<!--<p>Designer</p>-->
+						<!--<ul class="agileits_social_list">-->
+							<!--<li><a href="#" class="w3_agile_facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>-->
+							<!--<li><a href="#" class="agile_twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>-->
+							<!--<li><a href="#" class="w3_agile_dribble"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>-->
+							<!--<li><a href="#" class="w3_agile_vimeo"><i class="fa fa-vimeo" aria-hidden="true"></i></a></li>-->
+						<!--</ul>-->
+					<!--</div>-->
+					<!--<div class="col-md-3 w3_agile_team_grid">-->
+						<!--<div class="hover14 column">-->
+							<!--<figure><img src="{% static 'images/71.jpg' %}" alt=" " class="img-responsive" /></figure>-->
+						<!--</div>-->
+						<!--<h3>Shubham Agarwal</h3>-->
+						<!--<p>Designer</p>-->
+						<!--<ul class="agileits_social_list">-->
+							<!--<li><a href="#" class="w3_agile_facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>-->
+							<!--<li><a href="#" class="agile_twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>-->
+							<!--<li><a href="#" class="w3_agile_dribble"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>-->
+							<!--<li><a href="#" class="w3_agile_vimeo"><i class="fa fa-vimeo" aria-hidden="true"></i></a></li>-->
+						<!--</ul>-->
+					<!--</div>-->
+					<!--<div class="col-md-3 w3_agile_team_grid">-->
+						<!--<div class="hover14 column">-->
+							<!--<figure><img src="{% static 'images/81.jpg' %}" alt=" " class="img-responsive" /></figure>-->
+						<!--</div>-->
+						<!--<h3>Pulkit Luthra</h3>-->
+						<!--<p>Designer</p>-->
+						<!--<ul class="agileits_social_list">-->
+							<!--<li><a href="#" class="w3_agile_facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>-->
+							<!--<li><a href="#" class="agile_twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>-->
+							<!--<li><a href="#" class="w3_agile_dribble"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>-->
+							<!--<li><a href="#" class="w3_agile_vimeo"><i class="fa fa-vimeo" aria-hidden="true"></i></a></li>-->
+						<!--</ul>-->
+					<!--</div>-->
+					<!--<div class="col-md-3 w3_agile_team_grid">-->
+						<!--<div class="hover14 column">-->
+							<!--<figure><img src="{% static 'images/91.jpg' %}" alt=" " class="img-responsive" /></figure>-->
+						<!--</div>-->
+						<!--<h3>Abhik sarkar</h3>-->
+						<!--<p>Designer</p>-->
+						<!--<ul class="agileits_social_list">-->
+							<!--<li><a href="#" class="w3_agile_facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>-->
+							<!--<li><a href="#" class="agile_twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>-->
+							<!--<li><a href="#" class="w3_agile_dribble"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>-->
+							<!--<li><a href="#" class="w3_agile_vimeo"><i class="fa fa-vimeo" aria-hidden="true"></i></a></li>-->
+						<!--</ul>-->
+					<!--</div>-->
+					<!--<div class="clearfix"> </div>-->
+				<!--</div>-->
+			<!--</div>-->
+		<!--</div>-->
 		<!-- team -->
 <!-- footer -->
 <div class="footer" id="about">
@@ -1241,5 +1259,28 @@ div.sign_in{
 				}
 			{% endif %}
 		</script>
+		<script>
+/* When the user clicks on the button,
+toggle between hiding and showing the dropdown content */
+function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+</script>
+
 </body>
 </html>
