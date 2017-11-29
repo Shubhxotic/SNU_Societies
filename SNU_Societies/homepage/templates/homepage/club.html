@@ -230,7 +230,9 @@ url(   \  \ }
 				<div class="col-md-3">
 					<h2 class="text-center" style="color: #444;">{{event.Name}}</h2>
 				<br>
-				<a href="{% url 'events_detail' eventname=event.Name %}"><img src="{{event.poster}}" width="300px" height="300px"></a>
+				<a href="{% url 'events_detail' eventname=event.Name %}" onclick="func()" >
+					<img class="eventbtn"  src="{{event.poster}}" width="300px" height="300px">
+				</a>
 					<!--<h1>sda{{request.user.is_superuser}}</h1>-->
 					<!--{% if post.Registered_Events  %}-->
 						<!--<a href="/registereve/{{event.Name}}/" class="text-center"><button class="btn btn-primary">Register</button></a>-->
@@ -491,7 +493,17 @@ url(   \  \ }
 			$().UItoTop({ easingType: 'easeOutQuart' });
 
 			});
+
 	</script>
+	<script type="text/javascript">
+			function func(){
+					console.log(request.user);
+					if (request.user.is_authenticated){
+									alert("kindly login");
+					else{
+							$('#myModal1').modal('show');}
+					}
+		</script>
 	<!-- //here ends scrolling icon -->
 </body>
 </html>

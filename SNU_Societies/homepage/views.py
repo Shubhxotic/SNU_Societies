@@ -314,6 +314,7 @@ def club(request,clubname):
     #x = Clubs.objects.filter(clubname=clubname.strip())
     x = get_object_or_404(Clubs,clubname=clubname.strip())
     events=x.Events.split(',')
+    print(events)
     if(events.__contains__("")):
         events.remove("")
     eve=[]
@@ -362,11 +363,14 @@ def club(request,clubname):
 #         )
 
 def events_detail(request, eventname):
+    if(not request.user.username):
+        return render(request, "homepage/unauthentic.html", {})
     post = get_object_or_404(eve_detail, Name=eventname)
     userId = get_object_or_404(Reg_User, Username=request.user.username)
     regOrNot = userId.Registered_Events.split(",").__contains__(str(post.id))
+    clubOrNot = userId.cl_id==0
     return render(
-        request, 'homepage/events2.html', {'post': post,'regOrNot':regOrNot}
+        request, 'homepage/events2.html', {'post': post,'regOrNot':regOrNot, 'clubOrNot': clubOrNot}
         )
 
 
@@ -419,7 +423,10 @@ def simple_upload(request):
             tagx=tag.objects.filter(Tag_Name__icontains = i)[0]
             print(tagx)
             emaillist=[]
-            for j in tagx.UserSubscribed.split(","):
+            poaw=tagx.UserSubscribed.split(",")
+            if(poaw.__contains__('')):
+                poaw.remove('')
+            for j in poaw:
                 emaillist.append(get_object_or_404(Reg_User,pk=j).Email)
         subject = b+" presents "+a
         message="xyz"
@@ -545,7 +552,7 @@ def user_profile(request):
         return HttpResponseRedirect("/unauthenticated")
     user = request.user
     print(user)
-    post = get_object_or_404(Reg_User, Username=user)
+    post = get_object_or_404(Reg_User, Username__icontains=user)
     l = post.interests.split(',')
     print(l)
     eve = []
@@ -553,8 +560,11 @@ def user_profile(request):
     if(post.cl_id!=0):
         events = get_object_or_404(Clubs, pk=post.cl_id).Events.split(',')
         print(events)
-        for i in events:
-            eve.append(get_object_or_404(eve_detail, pk=int(i)))
+        if(events.__contains__('')):
+            events.remove('')
+        if(len(events) !=0):
+            for i in events:
+                eve.append(get_object_or_404(eve_detail, pk=int(i)))
     else:
         events = post.Registered_Events.split(',')
         print(events)
